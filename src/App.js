@@ -1,24 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import Menu from "./Components/Menu";
+import Api from "./Components/menuApi";
+import {useState} from "react";
+import {Navbar} from './Components/Navbar';
+
 
 function App() {
+
+  const uniqueList = ["All", ...new Set(Api.map((ele)=>{
+    return ele.category;
+  }))];
+
+  // const abc = (()=>{
+
+  //   Api.filter((el)=>{
+  //     console.log(el.category);
+  //     return el.category;
+  //   })
+
+ 
+
+  // })
+
+  // console.log(abc);
+
+  const filteredFun = ((cat)=>{
+
+    if(cat === "All"){
+      
+       return setMenuData(Api);
+      
+    }
+  
+     else{ const updatedList =  Api.filter((e)=>{ return e.category === cat; })
+
+     return setMenuData(updatedList);
+    
+  }
+    })
+
+  
+
+ const [menuData,setMenuData] = useState(Api);
+//  const [uniquemenuData,setUniqueMenuData] = useState(uniqueList);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+      <Navbar  unique = {uniqueList} filter = {filteredFun}/> 
+
+    <Menu data = {menuData}/>
+   
+   
+    </>
   );
 }
 
